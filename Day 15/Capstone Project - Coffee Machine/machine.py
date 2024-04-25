@@ -14,11 +14,13 @@ machine_profit = 0.0
 
 
 def which_coffe():
+    """Chooses the type of coffee user wants"""
     coffee = input("What would you like? (Espresso/Latte/Cappuccino): ")
     return coffee.lower()
 
 
 def print_report():
+    """Prints the Report of the current resources left"""
     print(f"Water: {resources['water']}ml")
     print(f"Milk: {resources['milk']}ml")
     print(f"Coffee: {resources['coffee']}g")
@@ -26,6 +28,7 @@ def print_report():
 
 
 def is_resources_sufficient(coffee_chosen):
+    """Checks if resources are sufficient"""
     milk = resources['milk']
     water = resources['water']
     coffee = resources['coffee']
@@ -43,12 +46,14 @@ def is_resources_sufficient(coffee_chosen):
 
 
 def process_payment(quarters, dimes, nickles, pennies):
+    """Processes the payment and gives final amount given by user"""
     total_amount = (quarters * coin_value["quarters"] + dimes * coin_value["dimes"] +
                     nickles * coin_value["nickles"] + pennies * coin_value["pennies"])
     return total_amount
 
 
 def is_transaction_successful(coffee_chosen, quarters, dimes, nickles, pennies):
+    """Checks if transaction is successful"""
     global machine_profit
     received_amount = process_payment(quarters, dimes, nickles, pennies)
     actual_coffe_cost = MENU[coffee_chosen]['cost']
@@ -69,12 +74,14 @@ def is_transaction_successful(coffee_chosen, quarters, dimes, nickles, pennies):
 
 
 def deduct_resources(coffee_chosen):
+    """Deduct the amount of used resources from the resource"""
     resources['milk'] -= MENU[coffee_chosen]['ingredients']['milk']
     resources['water'] -= MENU[coffee_chosen]['ingredients']['water']
     resources['coffee'] -= MENU[coffee_chosen]['ingredients']['coffee']
 
 
 def make_coffee():
+    """Makes coffee for user and checks all other stuffs"""
     coffee = which_coffe()
     print_report()
     resource_sufficient = is_resources_sufficient(coffee)
@@ -97,8 +104,8 @@ def make_coffee():
         return "unsuccessful"
 
 
-# make_coffee()
 def coffee_machine():
+    """Initialises the coffee machine"""
     print("Welcome to to Coffee-Machine")
     print("We serve the Best Coffee here...")
     off = False
