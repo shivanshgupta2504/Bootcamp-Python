@@ -3,16 +3,13 @@ from twilio.rest import Client
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
-
-STOCK_API = "6BDYTANBTS1MHUMU"
-NEWS_API = "2fbc2a40285d43ae87dfb4734a7f6551"
-ACCOUNT_SID = "AC497d8acfa141d3c0643aa28a74329db7"
-AUTH_TOKEN = "b1b3a09696d646316ef34996ae22681a"
 
 # STEP 1: Use https://www.alphavantage.co/documentation/#daily
 # When stock price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -22,7 +19,7 @@ AUTH_TOKEN = "b1b3a09696d646316ef34996ae22681a"
 stock_params = {
     "function": "TIME_SERIES_DAILY",
     "symbol": STOCK_NAME,
-    "apikey": STOCK_API,
+    "apikey": os.getenv("STOCK_API"),
 }
 stock_response = requests.get(STOCK_ENDPOINT, params=stock_params)
 stock_data = stock_response.json()["Time Series (Daily)"]
@@ -53,7 +50,7 @@ diff_percent = (abs(price_diff) / yesterday_closing_price) * 100
 # Instead of printing ("Get News"), use the News API to get articles related to the COMPANY_NAME.
 if diff_percent > 0.1:
     news_params = {
-        "apiKey": NEWS_API,
+        "apiKey": os.getenv("NEWS_API"),
         "q": COMPANY_NAME,
     }
 
@@ -71,7 +68,7 @@ if diff_percent > 0.1:
     formatted_article_list = [f"{'\n'}{STOCK_NAME}: {sign}{'\n'}Headline: {article['title']}. {'\n'}Brief: {article['description']}" for article in first_three_articles]
 
     # Send each article as a separate message via Twilio.
-    client = Client(ACCOUNT_SID, AUTH_TOKEN)
+    client = Client(os.getenv("ACCOUNT_SID"), os.getenv("AUTH_TOKEN"))
     for article in formatted_article_list:
         message = client.messages.create(
             body=article,
