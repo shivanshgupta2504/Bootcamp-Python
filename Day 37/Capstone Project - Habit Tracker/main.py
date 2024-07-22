@@ -1,15 +1,15 @@
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-USERNAME = "shivanshsg25"
-TOKEN = "vedv4d1vv4sve47v"
-GRAPH_ID = "graph1"
+load_dotenv()
 
 pixela_endpoint = "https://pixe.la/v1/users"
 
 user_params = {
-    "token": TOKEN,
-    "username": USERNAME,
+    "token": os.getenv("TOKEN"),
+    "username": os.getenv("USERNAME"),
     "agreeTermsOfService": "yes",
     "notMinor": "yes",
 }
@@ -17,10 +17,10 @@ user_params = {
 # response = requests.post(url=pixela_endpoint, json=user_params)
 # print(response.text)
 
-graph_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs"
+graph_endpoint = f"{pixela_endpoint}/{os.getenv("USERNAME")}/graphs"
 
 graph_config = {
-    "id": GRAPH_ID,
+    "id": os.getenv("GRAPH_ID"),
     "name": "Indoor Cycling",
     "unit": "Km",
     "type": "float",
@@ -28,13 +28,13 @@ graph_config = {
 }
 
 headers = {
-    "X-USER-TOKEN": TOKEN,
+    "X-USER-TOKEN": os.getenv("TOKEN"),
 }
 
 # response = requests.post(url=graph_endpoint, json=graph_config, headers=headers)
 # print(response.text)
 
-post_endpoint = f"{graph_endpoint}/{GRAPH_ID}"
+post_endpoint = f"{graph_endpoint}/{os.getenv("GRAPH_ID")}"
 today = datetime.now()
 
 post_params = {
