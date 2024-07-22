@@ -1,18 +1,16 @@
 import requests
 from twilio.rest import Client
+from dotenv import load_dotenv
 import os
 
-api_key = "758cf993b08669d2a43d5b247c9ec85c"
-# api_key = os.environ.get("WEATHER_API_KEY")
-account_sid = "AC497d8acfa141d3c0643aa28a74329db7"
-auth_token = "b1b3a09696d646316ef34996ae22681a"
+load_dotenv()
 MY_LAT = 19.075983
 MY_LONG = 72.877655
 
 parameters = {
     "lat": MY_LAT,
     "lon": MY_LONG,
-    "appid": api_key,
+    "appid": os.getenv("API_KEY"),
     "cnt": 4,
 }
 
@@ -30,7 +28,7 @@ for hour_data in weather_data["list"]:
 
 
 if will_rain:
-    client = Client(account_sid, auth_token)
+    client = Client(os.getenv("ACCOUNT_SID"), os.getenv("AUTH_TOKEN"))
     message = client.messages.create(
         body="It's going to rain today. Remember to bring an Umbrella.",
         from_='+12566699553',
