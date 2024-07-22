@@ -9,7 +9,6 @@ STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
 # STEP 1: Use https://www.alphavantage.co/documentation/#daily
 # When stock price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -54,7 +53,7 @@ if diff_percent > 0.1:
         "q": COMPANY_NAME,
     }
 
-    news_response = requests.get(NEWS_ENDPOINT, params=news_params)
+    news_response = requests.get(os.getenv("NEWS_ENDPOINT"), params=news_params)
     articles = news_response.json()["articles"]
 
     # Use Python slice operator to create a list that contains the first 3 articles. Hint:

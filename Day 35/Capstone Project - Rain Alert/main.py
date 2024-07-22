@@ -4,12 +4,10 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-MY_LAT = 19.075983
-MY_LONG = 72.877655
 
 parameters = {
-    "lat": MY_LAT,
-    "lon": MY_LONG,
+    "lat": os.getenv("MY_LAT"),
+    "lon": os.getenv("MY_LONG"),
     "appid": os.getenv("API_KEY"),
     "cnt": 4,
 }
